@@ -1,0 +1,950 @@
+openapi: 3.1.0
+info:
+  title: TODO JSON:API
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8000/api/v1
+    description: Local development server
+paths:
+  /users:
+    get:
+      operationId: usersIndex
+      description: Get list of users
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        200:
+          description: A list of users
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/jsonapiCollectionDocument'
+                  - type: object
+                    required:
+                      - data
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/userResource'
+        400:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: usersCreate
+      description: Create a new user
+      requestBody:
+        $ref: '#/components/requestBodies/createUser'
+      responses:
+        201:
+          description: Successful response
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/components/schemas/userResource'
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/jsonapiResourceObject'
+                  meta:
+                    $ref: '#/components/schemas/meta'
+        400:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+  /users/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: userRead
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/components/schemas/userResource'
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/jsonapiResourceObject'
+                  meta:
+                    $ref: '#/components/schemas/meta'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+    patch:
+      operationId: userUpdate
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    type:
+                      type: string
+                      enum:
+                        - 'users'
+                    attributes:
+                      $ref: '#/components/schemas/userAttributes'
+                    relationships:
+                      type: object
+                      properties:
+                        todos:
+                          type: object
+                          required:
+                            - data
+                          properties:
+                            data:
+                              type: array
+                              items:
+                                type: object
+                                required:
+                                  - id
+                                  - type
+                                properties:
+                                  id:
+                                    type: string
+                                    format: uuid
+                                  type:
+                                    type: string
+                                    enum:
+                                      - 'todos'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/components/schemas/userResource'
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/jsonapiResourceObject'
+                  meta:
+                    $ref: '#/components/schemas/meta'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: userDelete
+      responses:
+        204:
+          description: Deleted
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+  /users/{userId}/todos:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: userGetTodos
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/jsonapiCollectionDocument'
+                  - type: object
+                    required:
+                      - data
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/todoResource'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+  /users/{userId}/relationships/todos:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: userGetTodoIdentifiers
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        200:
+          $ref: '#/components/responses/userTodoIdentifiers'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+    patch:
+      operationId: userSetTodos
+      responses:
+        200:
+          $ref: '#/components/responses/userTodoIdentifiers'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: userAddTodos
+      responses:
+        200:
+          $ref: '#/components/responses/userTodoIdentifiers'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: userRemoveTodos
+      responses:
+        200:
+          $ref: '#/components/responses/userTodoIdentifiers'
+        204:
+          description: Empty relationship
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+  /todos:
+    get:
+      operationId: todosIndex
+      responses:
+        200:
+          description: A list of todos
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/jsonapiCollectionDocument'
+                  - type: object
+                    required:
+                      - data
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/todoResource'
+        400:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: todosCreate
+      requestBody:
+        $ref: '#/components/requestBodies/createTodo'
+      responses:
+        201:
+          description: Successful response
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/components/schemas/todoResource'
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/jsonapiResourceObject'
+                  meta:
+                    $ref: '#/components/schemas/meta'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+  /todos/{todoId}:
+    parameters:
+      - name: todoId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: todoRead
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/components/schemas/todoResource'
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/jsonapiResourceObject'
+                  meta:
+                    $ref: '#/components/schemas/meta'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+    patch:
+      operationId: todoUpdate
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    type:
+                      type: string
+                      enum:
+                        - 'todos'
+                    attributes:
+                      $ref: '#/components/schemas/todoAttributes'
+                    relationships:
+                      type: object
+                      properties:
+                        user:
+                          type: object
+                          required:
+                            - data
+                          properties:
+                            data:
+                              type: object
+                              required:
+                                - id
+                                - type
+                              properties:
+                                id:
+                                  type: string
+                                  format: uuid
+                                type:
+                                  type: string
+                                  enum:
+                                    - 'users'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/components/schemas/todoResource'
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/jsonapiResourceObject'
+                  meta:
+                    $ref: '#/components/schemas/meta'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: todoDelete
+      responses:
+        204:
+          description: Deleted
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+  /todos/{todoId}/user:
+    parameters:
+      - name: todoId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: todoGetUser
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    $ref: '#/components/schemas/userResource'
+                  included:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/jsonapiResourceObject'
+                  meta:
+                    $ref: '#/components/schemas/meta'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+  /todos/{todoId}/relationships/user:
+    parameters:
+      - name: todoId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: todoGetUserIdentifier
+      responses:
+        200:
+          $ref: '#/components/responses/todoUserIdentifier'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+    patch:
+      operationId: todoSetUser
+      responses:
+        200:
+          $ref: '#/components/responses/todoUserIdentifier'
+        400:
+          $ref: '#/components/responses/error'
+        404:
+          $ref: '#/components/responses/error'
+        422:
+          $ref: '#/components/responses/error'
+components:
+  parameters:
+    include:
+      name: include
+      in: query
+      description: Parameter to specify inclusion of related resources.
+      schema:
+        type: string
+        format: regex
+    page:
+      name: page
+      in: query
+      description: Parameter to specify pagination information.
+      schema:
+        type: object
+        properties:
+          number:
+            type: integer
+            description: The page number to retrieve.
+            default: 1
+          size:
+            type: integer
+            description: The size of the page in number of records.
+            default: 100
+  requestBodies:
+    createUser:
+      content:
+        application/vnd.api+json:
+          schema:
+            type: object
+            required:
+              - data
+            properties:
+              data:
+                $ref: '#/components/schemas/newUserResource'
+    createTodo:
+      content:
+        application/vnd.api+json:
+          schema:
+            type: object
+            properties:
+              data:
+                allOf:
+                  - $ref: '#/components/schemas/newUserResource'
+                required:
+                  - attributes
+                  - relationships
+                properties:
+                  attributes:
+                    allOf:
+                      - required:
+                          - description
+                      - $ref: '#/components/schemas/todoAttributes'
+                  relationships:
+                    allOf:
+                      - required:
+                          - user
+                      - $ref: '#/components/schemas/todoRelationships'
+  responses:
+    error:
+      description: A JSON:API error response.
+      content:
+        application/vnd.api+json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  $ref: '#/components/schemas/jsonapiErrorObject'
+    userTodoIdentifiers:
+      description: Successful response
+      content:
+        application/vnd.api+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/jsonapiDocument'
+              - type: object
+                required:
+                  - data
+                properties:
+                  links:
+                    $ref: '#/components/schemas/jsonapiPaginationLinks'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - id
+                        - type
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        type:
+                          type: string
+                          enum:
+                            - 'todos'
+    todoUserIdentifier:
+      description: Successful response
+      content:
+        application/vnd.api+json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/jsonapiDocument'
+              - type: object
+                required:
+                  - data
+                properties:
+                  data:
+                    oneOf:
+                      - type: 'null'
+                      - type: object
+                        required:
+                          - id
+                          - type
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          type:
+                            type: string
+                            enum:
+                              - 'users'
+  schemas:
+    jsonapiDocument:
+      type: object
+      properties:
+        meta:
+          allOf:
+            - description: Optional, non-standard top-level meta information.
+            - $ref: '#/components/schemas/meta'
+        links:
+          allOf:
+            - description: Optional, object of links relating to the response document.
+            - $ref: '#/components/schemas/links'
+        jsonapi:
+          description: Optional, object describing specifics of the version of JSON:API specification that is implemented.
+          type: object
+          properties:
+            version:
+              type: string
+              enum:
+                - '1.0'
+            meta:
+              $ref: '#/components/schemas/meta'
+    jsonapiSingleDocument:
+      allOf:
+        - $ref: '#/components/schemas/jsonapiDocument'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/jsonapiResourceObject'
+    jsonapiCollectionDocument:
+      allOf:
+        - $ref: '#/components/schemas/jsonapiDocument'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/jsonapiResourceObject'
+            links:
+              $ref: '#/components/schemas/jsonapiPaginationLinks'
+    jsonapiPaginationLinks:
+      type: object
+      properties:
+        first:
+          oneOf:
+            - type: 'null'
+            - allOf:
+              - description: The first page of data
+              - $ref: '#/components/schemas/link'
+        last:
+          oneOf:
+            - type: 'null'
+            - allOf:
+              - description: The last page of data
+              - $ref: '#/components/schemas/link'
+        prev:
+          oneOf:
+            - type: 'null'
+            - allOf:
+              - description: The previous page of data
+              - $ref: '#/components/schemas/link'
+        next:
+          oneOf:
+            - type: 'null'
+            - allOf:
+              - description: The next page of data
+              - $ref: '#/components/schemas/link'
+    jsonapiResourceObject:
+      type: object
+      required:
+        - type
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        attributes:
+          type: object
+        relationships:
+          $ref: '#/components/schemas/jsonapiResourceRelationships'
+        links:
+          $ref: '#/components/schemas/links'
+        meta:
+          $ref: '#/components/schemas/meta'
+    jsonapiResourceRelationships:
+      type: object
+      additionalProperties:
+        properties:
+          data:
+            type: object
+          links:
+            description: Optional, links for the resource.
+            allOf:
+              - $ref: '#/components/schemas/links'
+              - type: object
+                properties:
+                  self:
+                    allOf:
+                      - description: Optional, a link for the relationship itself (a “relationship link”). This link allows the client to directly manipulate the relationship.
+                      - $ref: '#/components/schemas/link'
+                  related:
+                    allOf:
+                      - description: Optional, a related resource link.
+                      - $ref: '#/components/schemas/link'
+          meta:
+            $ref: '#/components/schemas/meta'
+    jsonapiErrorObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: A unique identifier for this particular occurrence of the problem.
+        links:
+          type: object
+          properties:
+            about:
+              allOf:
+                - description: A link that leads to further details about this particular occurrence of the problem.
+                - $ref: '#/components/schemas/link'
+        status:
+          type: string
+          description: The HTTP status code applicable to this problem, expressed as a string value.
+          examples:
+            - '400'
+            - '422'
+            - '500'
+        code:
+          type: string
+          description: An application-specific error code, expressed as a string value.
+        title:
+          type: string
+          description: A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.
+        description:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem. Like title, this field’s value can be localized.
+        source:
+          type: object
+          description: An object containing references to the source of the error.
+          properties:
+            pointer:
+              type: string
+              format: 'json-pointer'
+              description: A JSON Pointer [RFC6901] to the associated entity in the request document [e.g. "/data" for a primary data object, or "/data/attributes/title" for a specific attribute].
+            parameter:
+              type: string
+              description: A string indicating which URI query parameter caused the error.
+        meta:
+          $ref: '#/components/schemas/meta'
+    newUserResource:
+      type: object
+      required:
+        - type
+        - attributes
+      properties:
+        type:
+          type: string
+          enum:
+            - 'users'
+        attributes:
+          allOf:
+            - required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+            - $ref: '#/components/schemas/userAttributes'
+        relationships:
+          $ref: '#/components/schemas/userRelationships'
+    newTodoResource:
+      type: object
+      required:
+        - attributes
+        - relationships
+      properties:
+        type:
+          type: string
+          enum:
+            - 'todos'
+        attributes:
+          allOf:
+            - required:
+                - description
+            - $ref: '#/components/schemas/todoAttributes'
+        relationships:
+          allOf:
+            - required:
+                - user
+            - $ref: '#/components/schemas/todoRelationships'
+    userResource:
+      allOf:
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              format: uuid
+            meta:
+              type: object
+              properties:
+                createdAt:
+                  type: string
+                  format: date-time
+                updatedAt:
+                  type: string
+                  format: date-time
+        - $ref: '#/components/schemas/newUserResource'
+    todoResource:
+      allOf:
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              format: uuid
+            meta:
+              type: object
+              properties:
+                createdAt:
+                  type: string
+                  format: date-time
+                updatedAt:
+                  type: string
+                  format: date-time
+        - $ref: '#/components/schemas/newTodoResource'
+    userAttributes:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+    userRelationships:
+      type: object
+      properties:
+        todos:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                required:
+                  - id
+                  - type
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  type:
+                    type: string
+                    enum:
+                      - 'todos'
+    todoAttributes:
+      type: object
+      properties:
+        description:
+          type: string
+        priority:
+          type: string
+          default: medium
+          enum:
+            - low
+            - medium
+            - high
+            - highest
+        dueDate:
+          type: string
+          format: date-time
+        completedAt:
+          oneOf:
+            - type: 'null'
+            - type: string
+              format: date-time
+    todoRelationships:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            data:
+              oneOf:
+                - type: 'null'
+                - type: object
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    type:
+                      type: string
+                      enum:
+                        - 'users'
+    links:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/link'
+    link:
+      oneOf:
+        - type: string
+          format: uri
+          description: A simple link
+        - $ref: '#/components/schemas/linkObject'
+    linkObject:
+      type: object
+      description: A complex link
+      properties:
+        href:
+          type: string
+          format: uri
+        meta:
+          allOf:
+            - description: Optional, non-standard meta information about the link.
+            - $ref: '#/components/schemas/meta'
+    meta:
+      type: object
+      additionalProperties: true
+externalDocs:
+  url: https://jsonapi.org/format/1.0/
+  description: JSON:API v1.0 specification
