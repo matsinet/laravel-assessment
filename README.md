@@ -27,4 +27,4 @@ About 2-3 hours, depending on your experience level. There is no time limit, thi
 Upon completion of this challenge, please send us a link to your repository at jylissa.salveson@daysmart.com!
 
 ## Issues?
-Upon completion of this challenge, please send us a link to your repository at jylissa.salveson@daysmart.com!
+If you have any questions or issues during the challenge, please do not hesitate to contact me at jordan.gosney@daysmart.com.
