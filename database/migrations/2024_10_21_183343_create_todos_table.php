@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('todos', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->foreignUuid('user_id')->references('uuid')->on('users');
+            $table->foreignUuid('user_id')->nullable()->references('uuid')->on('users');
             $table->string('description');
             $table->enum('priority', ['low', 'medium', 'high', 'highest'])->default('medium');
             $table->dateTime('due_date');

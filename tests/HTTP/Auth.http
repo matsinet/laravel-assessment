@@ -1,0 +1,18 @@
+### POST login - Happy Path
+POST {{API_URL}}/login
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+email=jett09@example.com&password=password
+
+> {% client.global.set("auth_token", response.body.data.token); %}
+
+###
+
+### POST login - Negative Test user not found
+POST {{API_URL}}/logout
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###

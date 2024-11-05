@@ -1,0 +1,30 @@
+### GET user todos
+GET {{API_URL}}/v1/users/22/todos
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+
+### POST user todo - v1
+POST {{API_URL}}/v1/users/22/todos
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+    "data": {
+        "attributes": {
+            "title": "Todo for User 22",
+            "description": "This is the first todo for user 22"
+        }
+    }
+}
+
+###
+
+### DELETE user todo - v1
+DELETE {{API_URL}}/v1/users/22/todos/101
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###

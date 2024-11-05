@@ -1,0 +1,75 @@
+### GET users - v1
+GET {{API_URL}}/v1/users/
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+###
+
+### GET user - v1
+GET {{API_URL}}/v1/users/88286ffd-509f-489c-b288-c8bcf411fad6
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+
+### POST user
+POST {{API_URL}}/v1/users
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+    "data": {
+        "type": "users",
+        "attributes": {
+            "name": "Popeye",
+            "email": "popeye@example.com"
+        }
+    }
+}
+
+###
+
+### PUT user
+PUT {{API_URL}}/v1/users/88286ffd-509f-489c-b288-c8bcf411fad6
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+    "data": {
+        "type": "users",
+        "attributes": {
+            "name": "Popeye",
+            "email": "popeye.the.sailor@example.com",
+            "password": "password"
+        }
+    }
+}
+
+###
+
+### PATCH user
+PATCH {{API_URL}}/v1/users/88286ffd-509f-489c-b288-c8bcf411fad6
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+    "data": {
+        "type": "users",
+        "attributes": {
+            "email": "popeye.the.sailor@example.com",
+        }
+    }
+}
+
+###
+
+### DELETE user - v1
+DELETE {{API_URL}}/v1/users/2bfdcdc5-2872-41dc-b992-72a8b4c5ba69
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###
+
