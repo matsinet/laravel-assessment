@@ -29,7 +29,7 @@ class UpdateTodoRequest extends BaseTodoRequest
         ];
 
         if ($this->routeIs('todos.update')) {
-            $rules['data.attributes.userId'] = 'required|string';
+            $rules['data.attributes.userId'] = 'sometimes|string';
         }
 
         return $rules;

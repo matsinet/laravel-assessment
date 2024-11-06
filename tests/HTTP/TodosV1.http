@@ -45,7 +45,7 @@ Content-Type: application/json
             "priority": "low",
             "dueDate": "2024-11-16 21:03:50",
             "completedAt": "",
-            "userId": "88286ffd-509f-489c-b288-c8bcf411fad6",
+            "userId": "88286ffd-509f-489c-b288-c8bcf411fad6"
         }
     }
 }

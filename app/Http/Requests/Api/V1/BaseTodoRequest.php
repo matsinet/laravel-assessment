@@ -13,7 +13,7 @@ class BaseTodoRequest extends FormRequest
             'data.attributes.priority' => 'priority',
             'data.attributes.dueDate' => 'due_date',
             'data.attributes.completedAt' => 'created_at',
-            // 'data.attributes.userId' => 'user_id',
+            'data.attributes.userId' => 'user_id',
         ];
 
         $attributesToUpdate = [];
@@ -23,9 +23,7 @@ class BaseTodoRequest extends FormRequest
             }
         }
 
-        dd($attributesToUpdate);
-
-        // return $attributesToUpdate;
+        return $attributesToUpdate;
     }
 
     public function messages(): array

@@ -58,7 +58,7 @@ class TodosController extends Controller
         try {
             $todo = Todo::findOrFail($id);
 
-            $todo->updata($request->mappedAttributes());
+            $todo->update($request->mappedAttributes());
 
             return new TodoResource($todo);
         } catch (ModelNotFoundException $exception) {
