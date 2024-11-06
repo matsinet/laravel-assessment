@@ -6,7 +6,7 @@ Accept: application/json
 ###
 
 ### GET user - v1
-GET {{API_URL}}/v1/todos/fe78e132-0091-4343-860f-8acfead8371d
+GET {{API_URL}}/v1/todos/fefc1cdc-00be-47e1-a517-9f4031222f8b
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
@@ -32,7 +32,7 @@ Content-Type: application/json
 ###
 
 ### PUT user
-PUT {{API_URL}}/v1/todos/fe78e132-0091-4343-860f-8acfead8371d
+PUT {{API_URL}}/v1/todos/fefc1cdc-00be-47e1-a517-9f4031222f8b
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
@@ -41,7 +41,10 @@ Content-Type: application/json
     "data": {
         "type": "todos",
         "attributes": {
-            "description": "Go Sailing",
+            "description": "Molestias at quis at non vel.",
+            "priority": "low",
+            "dueDate": "2024-11-16 21:03:50",
+            "completedAt": "",
             "userId": "88286ffd-509f-489c-b288-c8bcf411fad6",
         }
     }
@@ -67,7 +70,7 @@ Content-Type: application/json
 ###
 
 ### DELETE user - v1
-DELETE {{API_URL}}/v1/todos/818589e7-8fe7-4d2b-8cdb-e00a0dd49130
+DELETE {{API_URL}}/v1/todos/fe78e132-0091-4343-860f-8acfead8371d
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 

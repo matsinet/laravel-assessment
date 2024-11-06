@@ -22,8 +22,9 @@ Content-Type: application/json
     "data": {
         "type": "users",
         "attributes": {
-            "name": "Popeye",
-            "email": "popeye@example.com"
+            "name": "Olive Oyl",
+            "email": "olive.oyl@example.com",
+            "password": "password"
         }
     }
 }
@@ -41,8 +42,7 @@ Content-Type: application/json
         "type": "users",
         "attributes": {
             "name": "Popeye",
-            "email": "popeye.the.sailor@example.com",
-            "password": "password"
+            "email": "popeye@example.com"
         }
     }
 }
