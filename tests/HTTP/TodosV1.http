@@ -1,6 +1,6 @@
 ### GET todos - v1
 GET {{API_URL}}/v1/todos/
-Authorization: Bearer {{auth_token}}
+#Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###
@@ -14,7 +14,6 @@ Authorization: Bearer {{auth_token}}
 
 ### POST user
 POST {{API_URL}}/v1/todos
-
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
@@ -24,7 +23,9 @@ Content-Type: application/json
         "type": "todos",
         "attributes": {
             "description": "Go Sailing",
+            "priority": "medium",
             "userId": "88286ffd-509f-489c-b288-c8bcf411fad6",
+            "dueDate": "2024-11-30"
         }
     }
 }
