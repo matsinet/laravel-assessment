@@ -21,7 +21,7 @@ class StoreTodoRequest extends BaseTodoRequest
     {
         $rules = [
             'data.attributes.description' => 'required|string',
-            'data.attributes.priority' => 'required|default:medium|in:low,medium,high,highest',
+            'data.attributes.priority' => 'required|string|in:low,medium,high,highest',
             'data.attributes.dueDate' => 'string',
             'data.attributes.completedAt' => 'string',
         ];
