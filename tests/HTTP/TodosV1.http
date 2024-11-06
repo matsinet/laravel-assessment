@@ -5,14 +5,14 @@ Accept: application/json
 
 ###
 
-### GET user - v1
+### GET todo - v1
 GET {{API_URL}}/v1/todos/fefc1cdc-00be-47e1-a517-9f4031222f8b
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ###
 
-### POST user
+### POST todo
 POST {{API_URL}}/v1/todos
 Accept: application/json
 Authorization: Bearer {{auth_token}}
@@ -25,14 +25,15 @@ Content-Type: application/json
             "description": "Go Sailing",
             "priority": "medium",
             "userId": "88286ffd-509f-489c-b288-c8bcf411fad6",
-            "dueDate": "2024-11-30"
+            "dueDate": "2024-11-30",
+            "completedAt": "2024-11-28"
         }
     }
 }
 
 ###
 
-### PUT user
+### PUT todo
 PUT {{API_URL}}/v1/todos/fefc1cdc-00be-47e1-a517-9f4031222f8b
 Accept: application/json
 Authorization: Bearer {{auth_token}}
@@ -43,34 +44,17 @@ Content-Type: application/json
         "type": "todos",
         "attributes": {
             "description": "Molestias at quis at non vel.",
-            "priority": "low",
-            "dueDate": "2024-11-16 21:03:50",
-            "completedAt": "",
-            "userId": "88286ffd-509f-489c-b288-c8bcf411fad6"
+            "priority": "medium",
+            "dueDate": "2024-11-30",
+            "completedAt": "2024-11-29",
+            "todoId": "88286ffd-509f-489c-b288-c8bcf411fad6"
         }
     }
 }
 
 ###
 
-### PATCH user
-PATCH {{API_URL}}/v1/todos/88286ffd-509f-489c-b288-c8bcf411fad6
-Accept: application/json
-Authorization: Bearer {{auth_token}}
-Content-Type: application/json
-
-{
-    "data": {
-        "type": "todos",
-        "attributes": {
-            "email": "popeye.the.sailor@example.com",
-        }
-    }
-}
-
-###
-
-### DELETE user - v1
+### DELETE todos - v1
 DELETE {{API_URL}}/v1/todos/fe78e132-0091-4343-860f-8acfead8371d
 Accept: application/json
 Authorization: Bearer {{auth_token}}

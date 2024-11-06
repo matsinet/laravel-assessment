@@ -26,18 +26,17 @@ class TodoResource extends JsonResource
                 'priority' => $this->priority,
                 'dueDate' => $this->due_date,
                 'completedAt' => $this->completed_at,
-                'userId' => $this->user_id,
             ],
             'relationships' => [
                 'user' => [
                     'attributes' => [
-
+                        'id' => $this->user_id,
                     ]
                 ]
+            ],
+            'links' => [
+                'self' => route('users.show', ['user' => $this->user_id])
             ]
-            // 'links' => [
-            //     'self' => route('users.show', ['user' => $this->uuid])
-            // ]
         ];
     }
 }

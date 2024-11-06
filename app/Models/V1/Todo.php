@@ -31,7 +31,7 @@ class Todo extends Model
         'priority',
         'due_date',
         'completed_at',
-        // 'user_id',
+        'user_id',
     ];
 
     public static function boot() {

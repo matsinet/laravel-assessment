@@ -24,11 +24,8 @@ class StoreTodoRequest extends BaseTodoRequest
             'data.attributes.priority' => 'required|string|in:low,medium,high,highest',
             'data.attributes.dueDate' => 'string',
             'data.attributes.completedAt' => 'string',
+            'data.attributes.userId' => 'required|string'
         ];
-
-        if ($this->routeIs('todos.store')) {
-            $rules['data.attributes.userId'] = 'required|string';
-        }
 
         return $rules;
     }

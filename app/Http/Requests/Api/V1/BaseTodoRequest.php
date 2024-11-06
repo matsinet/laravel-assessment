@@ -12,7 +12,7 @@ class BaseTodoRequest extends FormRequest
             'data.attributes.description' => 'description',
             'data.attributes.priority' => 'priority',
             'data.attributes.dueDate' => 'due_date',
-            'data.attributes.completedAt' => 'created_at',
+            'data.attributes.completedAt' => 'completed_at',
             'data.attributes.userId' => 'user_id',
         ];
 
