@@ -33,10 +33,9 @@ class TodoResource extends JsonResource
                         'id' => $this->user_id,
                     ]
                 ]
-            ],
-            'links' => [
-                'self' => route('users.show', ['user' => $this->user_id])
             ]
         ];
+
+        return $response;
     }
 }

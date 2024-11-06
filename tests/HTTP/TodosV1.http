@@ -1,6 +1,6 @@
 ### GET todos - v1
 GET {{API_URL}}/v1/todos/
-#Authorization: Bearer {{auth_token}}
+Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###

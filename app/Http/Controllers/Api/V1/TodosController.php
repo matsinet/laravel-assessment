@@ -29,11 +29,11 @@ class TodosController extends Controller
      */
     public function store(StoreTodoRequest $request)
     {
-        // try {
-        //     $user = User::findorFail($request->input('data.attributes.user_id'));
-        // } catch (ModelNotFoundException $exception) {
-        //     return $this->error('User not found', 404);
-        // }
+        try {
+            User::findorFail($request->input('data.attributes.user_id'));
+        } catch (ModelNotFoundException $exception) {
+            return $this->error('User not found', 404);
+        }
 
         return new TodoResource(Todo::create($request->mappedAttributes()));
     }
